@@ -3,20 +3,20 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#100d09">
-<title>Hospoda Na Růžku | Strmilov</title>
+<title>Jídelní lístek | Hospoda Na Růžku</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap');
 
 :root {
   --bg: #100d09;
-  --panel: #1c1711;
+  --panel: #17130e;
   --gold: #d9ad62;
-  --cream: #fff5e6;
-  --muted: #c1b5a3;
-  --line: #594326;
+  --cream: #f8f0e4;
+  --muted: #b9ad9b;
+  --line: #493720;
 }
 
 * { box-sizing: border-box; }
@@ -27,12 +27,13 @@ body {
   margin: 0;
   color: var(--cream);
   background:
-    radial-gradient(ellipse at top, #3b2815, transparent 55%),
+    radial-gradient(ellipse at top, #302113, transparent 55%),
     var(--bg);
   font-family: 'DM Sans', sans-serif;
 }
 
 a { color: inherit; text-decoration: none; }
+button { font: inherit; }
 
 .topline {
   height: 3px;
@@ -42,16 +43,17 @@ a { color: inherit; text-decoration: none; }
 header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 50;
   background: #100d09ed;
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line);
 }
 
 nav {
   max-width: 1200px;
   margin: auto;
-  padding: 10px 22px;
+  min-height: 82px;
+  padding: 10px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,268 +65,323 @@ nav {
   align-items: center;
   gap: 12px;
   font-weight: 700;
+  font-size: 14px;
 }
 
 .brand img {
-  width: 58px;
-  height: 58px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
 }
 
 .brand small {
   display: block;
   color: var(--gold);
+  font-size: 10px;
   letter-spacing: 3px;
-  margin-top: 4px;
+  margin-top: 5px;
 }
 
 .links {
   display: flex;
   align-items: center;
-  gap: 23px;
-  font-size: 14px;
+  gap: 20px;
+  font-size: 13px;
 }
 
-.links a { transition: .25s; }
-
-.links a:hover { color: var(--gold); }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 21px;
-  border: 1px solid var(--gold);
-  border-radius: 30px;
-  font-weight: 700;
-  transition: .25s;
-  cursor: pointer;
-}
-
-.btn.gold {
-  color: #201509;
-  background: var(--gold);
-}
-
-.btn.outline { color: var(--cream); }
-
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px #d9ad6233;
+.links a:hover,
+.drawer a:hover {
+  color: var(--gold);
 }
 
 .menu-toggle {
-  display: none;
   color: var(--cream);
-  background: transparent;
+  background: #211a11;
   border: 1px solid var(--line);
   border-radius: 10px;
-  padding: 9px 13px;
-  font-size: 24px;
+  padding: 9px 14px;
+  font-size: 23px;
   cursor: pointer;
 }
 
-.hero {
-  max-width: 1200px;
-  min-height: 650px;
-  margin: auto;
-  padding: 65px 24px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 35px;
-  align-items: center;
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: #0009;
+  opacity: 0;
+  visibility: hidden;
+  transition: .3s;
 }
 
-.eyebrow {
-  color: var(--gold);
-  font-size: 12px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  font-weight: 700;
+.overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  width: min(390px, 90vw);
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  padding: 24px;
+  background: #17130e;
+  border-left: 1px solid var(--line);
+  box-shadow: -20px 0 60px #0008;
+  transform: translateX(105%);
+  transition: transform .3s ease;
+}
+
+.drawer.open { transform: translateX(0); }
+
+.drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 20px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.drawer-head .brand img {
+  width: 55px;
+  height: 55px;
+}
+
+.close {
+  width: 42px;
+  height: 42px;
+  color: var(--cream);
+  background: #292117;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.drawer > a {
+  display: block;
+  padding: 16px 10px;
+  border-bottom: 1px solid #49372077;
+  font-weight: 600;
+  transition: color .2s;
 }
 
 h1, h2, h3 {
   font-family: 'Playfair Display', serif;
 }
 
-.hero h1 {
-  font-size: clamp(43px, 6vw, 76px);
-  line-height: 1.05;
-  margin: 20px 0;
-}
-
-.hero h1 em {
+.eyebrow {
   color: var(--gold);
-  font-style: normal;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
-.hero p {
-  color: var(--muted);
-  font-size: 17px;
+.intro {
+  position: relative;
+  text-align: center;
+  padding: 55px 20px 48px;
+  background:
+    linear-gradient(#100d09a8, #100d09e8),
+    url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=85') center/cover;
+  border-bottom: 1px solid var(--line);
+}
+
+.intro-logo {
+  display: block;
+  width: 115px;
+  height: 115px;
+  object-fit: contain;
+  margin: 0 auto 18px;
+  filter: drop-shadow(0 5px 15px #000);
+}
+
+.intro h1 {
+  color: var(--gold);
+  font-size: clamp(38px, 6vw, 58px);
+  margin: 15px 0;
+}
+
+.intro p {
+  max-width: 600px;
+  margin: auto;
+  color: var(--cream);
   line-height: 1.8;
 }
 
-.actions {
+.quick-links {
   display: flex;
-  gap: 12px;
   flex-wrap: wrap;
-  margin-top: 28px;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
 }
 
-.hero-art {
-  min-height: 440px;
+.pill {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  color: var(--cream);
+  font-size: 13px;
+  transition: .2s;
+}
+
+.pill:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.menu-content {
+  max-width: 1150px;
+  padding: 35px 20px 70px;
+  margin: auto;
+}
+
+.menu-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #14110d;
+  scroll-margin-top: 105px;
+}
+
+.menu-section.reverse .menu-photo { order: 2; }
+.menu-section.reverse .menu-list { order: 1; }
+
+.menu-photo {
+  min-height: 300px;
+  background: #21180e;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-}
-
-.hero-art::before {
-  content: "";
-  position: absolute;
-  width: 85%;
-  aspect-ratio: 1;
-  border: 1px solid #d9ad6266;
-  border-radius: 50%;
-  box-shadow: 0 0 90px #d9ad621a;
-}
-
-.hero-logo {
-  position: relative;
-  width: min(80%, 360px);
-  object-fit: contain;
-  filter: drop-shadow(0 20px 30px #000b);
-  animation: float 5s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-
-.stamp {
-  position: absolute;
-  right: 0;
-  bottom: 30px;
-  padding: 16px 22px;
-  border: 1px solid var(--gold);
-  background: #17120c;
-  transform: rotate(3deg);
-}
-
-.stamp strong {
-  display: block;
-  color: var(--gold);
-  font: 700 22px 'Playfair Display', serif;
-}
-
-.stamp span {
-  color: var(--muted);
-  font-size: 11px;
-  letter-spacing: 2px;
-}
-
-.section {
-  max-width: 1200px;
-  margin: auto;
-  padding: 60px 24px;
-}
-
-.section-head {
-  text-align: center;
-  margin-bottom: 35px;
-}
-
-.section h2 {
-  font-size: clamp(30px, 4vw, 45px);
-  margin: 12px 0;
-}
-
-.section-head p { color: var(--muted); }
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.food {
   overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: var(--panel);
-  transition: .3s;
 }
 
-.food:hover {
-  transform: translateY(-6px);
-  border-color: var(--gold);
-}
-
-.food img {
+.menu-photo img {
   width: 100%;
-  height: 300px;
-  object-fit: cover;
+  height: 100%;
+  min-height: 300px;
+  max-height: 390px;
+  object-fit: contain;
   display: block;
+  transition: transform .4s;
 }
 
-.food-info { padding: 22px; }
-
-.food-info h3 {
-  margin: 0 0 10px;
-  font-size: 25px;
+.menu-photo.food-photo img {
+  object-fit: contain;
+  padding: 10px;
 }
 
-.food-info p {
-  color: var(--muted);
-  line-height: 1.7;
+.menu-photo:hover img {
+  transform: scale(1.035);
 }
 
-.food-info a {
+.menu-list {
+  padding: 28px 30px;
+  align-self: center;
+}
+
+.menu-list h2 {
   color: var(--gold);
-  font-weight: 700;
+  font-size: clamp(25px, 3vw, 34px);
+  margin: 0 0 22px;
 }
 
-.features {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 35px;
-}
-
-.feature {
-  padding: 25px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #19140e;
-}
-
-.feature h3 {
-  color: var(--gold);
-  margin-top: 0;
-}
-
-.feature p {
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.cta {
-  max-width: 1150px;
-  margin: 20px auto 70px;
-  padding: 38px;
-  border: 1px solid var(--gold);
-  border-radius: 20px;
-  background: linear-gradient(110deg, #30200e, #17110b);
+.menu-item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 25px;
+  align-items: baseline;
+  gap: 9px;
+  padding: 9px 0;
+  border-bottom: 1px dotted #76624770;
+  font-size: 14px;
 }
 
-.cta h2 { margin-top: 0; }
+.menu-item:last-child { border-bottom: none; }
 
-.cta p { color: var(--muted); }
+.item-name { line-height: 1.5; }
+
+.dots {
+  flex: 1;
+  min-width: 10px;
+  border-bottom: 1px dotted #8c785e;
+  transform: translateY(-4px);
+}
+
+.price {
+  color: var(--gold);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.menu-triple {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background: #14110d;
+  scroll-margin-top: 105px;
+}
+
+.mini-list {
+  padding: 24px;
+  border-right: 1px solid var(--line);
+}
+
+.mini-list:last-child { border-right: none; }
+
+.mini-list h2 {
+  color: var(--gold);
+  font-size: 24px;
+  margin: 0 0 16px;
+}
+
+.mini-list .menu-item {
+  font-size: 12px;
+  gap: 6px;
+}
+
+.drinks {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #14110d;
+  scroll-margin-top: 105px;
+}
+
+.drinks img {
+  width: 100%;
+  height: 100%;
+  min-height: 270px;
+  object-fit: cover;
+}
+
+.drinks .menu-list { padding: 30px; }
+
+.note {
+  margin-top: 22px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.8;
+  font-size: 13px;
+}
 
 footer {
   text-align: center;
@@ -338,54 +395,66 @@ footer img {
   width: 65px;
   height: 65px;
   object-fit: contain;
-  vertical-align: middle;
 }
 
-#mobileMenu { display: none; }
-
-#mobileMenu.open {
-  display: flex;
-  flex-direction: column;
-}
-
-#mobileMenu a {
-  padding: 15px 20px;
-  border-bottom: 1px solid var(--line);
-}
-
-@media (max-width: 800px) {
-  .links { display: none; }
+@media (min-width: 851px) {
   .menu-toggle { display: block; }
+}
 
-  .hero {
-    grid-template-columns: 1fr;
-    text-align: center;
-    padding-top: 40px;
-    gap: 5px;
+@media (max-width: 850px) {
+  .links { display: none; }
+  nav { min-height: 72px; padding: 9px 16px; }
+  .brand img { width: 48px; height: 48px; }
+
+  .menu-section { grid-template-columns: 1fr; }
+  .menu-section.reverse .menu-photo,
+  .menu-section.reverse .menu-list {
+    order: initial;
   }
 
-  .hero p { font-size: 15px; }
-
-  .actions { justify-content: center; }
-
-  .hero-art { min-height: 340px; }
-
-  .hero-logo { width: min(75%, 300px); }
-
-  .stamp { right: 2%; bottom: 10px; }
-
-  .cards, .features { grid-template-columns: 1fr; }
-
-  .food img { height: 260px; }
-
-  .cta {
-    margin: 20px 16px 50px;
-    display: block;
-    text-align: center;
-    padding: 28px 20px;
+  .menu-photo,
+  .menu-photo img {
+    min-height: 0;
+    height: auto;
+    max-height: none;
   }
 
-  .cta .btn { margin-top: 15px; }
+  .menu-photo img {
+    width: 100%;
+    max-height: 360px;
+  }
+
+  .menu-list { padding: 24px 20px; }
+
+  .menu-triple { grid-template-columns: 1fr; }
+
+  .mini-list {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mini-list:last-child { border-bottom: none; }
+
+  .mini-list .menu-item { font-size: 14px; }
+
+  .drinks { grid-template-columns: 1fr; }
+
+  .drinks img {
+    height: 240px;
+    min-height: 0;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro { padding: 40px 18px; }
+  .intro-logo { width: 95px; height: 95px; }
+  .intro h1 { font-size: 39px; }
+  .menu-content { padding: 22px 12px 45px; }
+  .menu-list { padding: 22px 15px; }
+  .menu-item { font-size: 12px; gap: 6px; }
+  .menu-list h2 { font-size: 27px; }
+  .mini-list { padding: 22px 16px; }
 }
 </style>
 </head>
@@ -396,7 +465,7 @@ footer img {
 <header>
   <nav>
     <a class="brand" href="index.html">
-      <img src="assets/logo.jpg" alt="Logo Hospoda Na Růžku">
+      <img src="assets/logo.jpg" alt="Logo Hospody Na Růžku">
       <span>HOSPODA NA RŮŽKU<small>STRMILOV</small></span>
     </a>
 
@@ -409,117 +478,172 @@ footer img {
       <a href="kontakt.html">Kontakt</a>
     </div>
 
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Otevřít menu">☰</button>
+    <button class="menu-toggle" onclick="openMenu()" aria-label="Otevřít menu">☰</button>
   </nav>
-
-  <div id="mobileMenu">
-    <a href="index.html">⌂ Hlavní stránka</a>
-    <a href="jidelnicek.html">🍽 Jídelní lístek</a>
-    <a href="objednavka.html">🛒 Objednat jídlo</a>
-    <a href="informace.html">ℹ Informace</a>
-    <a href="onas.html">♥ O nás</a>
-    <a href="kontakt.html">✉ Kontakt</a>
-  </div>
 </header>
 
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<aside class="drawer" id="drawer" aria-label="Navigační menu">
+  <div class="drawer-head">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.jpg" alt="Logo hospody">
+      <span>NA RŮŽKU<small>STRMILOV</small></span>
+    </a>
+    <button class="close" onclick="closeMenu()" aria-label="Zavřít menu">×</button>
+  </div>
+  <a href="index.html">⌂ &nbsp; Hlavní stránka</a>
+  <a href="jidelnicek.html">♨ &nbsp; Jídelní lístek</a>
+  <a href="objednavka.html">🛒 &nbsp; Objednat jídlo</a>
+  <a href="informace.html">◷ &nbsp; Informace a otevírací doba</a>
+  <a href="onas.html">✦ &nbsp; O nás</a>
+  <a href="kontakt.html">✉ &nbsp; Kontakt</a>
+  <a href="#napoje">♨ &nbsp; Nápoje</a>
+  <a href="#speciality">✧ &nbsp; Speciality</a>
+</aside>
+
 <main>
-  <section class="hero">
-    <div>
-      <div class="eyebrow">Vítejte ve Strmilově</div>
-      <h1>Dobré jídlo.<br>Dobré pivo.<br><em>Dobrá nálada.</em></h1>
-      <p>
-        TEST – Vítejte na stránkách Hospody Na Růžku.
-        Připravujeme pro vás příjemné posezení, dobré jídlo
-        a pohodovou atmosféru.
-      </p>
-
-      <div class="actions">
-        <a class="btn gold" href="jidelnicek.html">Zobrazit jídelní lístek ↗</a>
-        <a class="btn outline" href="objednavka.html">Objednat jídlo</a>
-      </div>
-    </div>
-
-    <div class="hero-art">
-      <img class="hero-logo" src="assets/logo.jpg" alt="Hospoda Na Růžku – Strmilov">
-      <div class="stamp">
-        <strong>TEST</strong>
-        <span>HOSPODA · STRMILOV</span>
-      </div>
+  <section class="intro">
+    <img class="intro-logo" src="assets/logo.jpg" alt="Hospoda Na Růžku Strmilov">
+    <div class="eyebrow">Naše nabídka</div>
+    <h1>Jídelní lístek</h1>
+    <p>
+      TEST – Vyberte si z naší nabídky jídel a nápojů.
+      Ceny a podrobnosti budou doplněny.
+    </p>
+    <div class="quick-links">
+      <a class="pill" href="#polevky">Polévky</a>
+      <a class="pill" href="#hlavni">Hlavní jídla</a>
+      <a class="pill" href="#speciality">Speciality</a>
+      <a class="pill" href="#prilohy">Přílohy</a>
+      <a class="pill" href="#dezerty">Dezerty</a>
+      <a class="pill" href="#napoje">Nápoje</a>
+      <a class="pill" href="#pivo">Pivo</a>
     </div>
   </section>
 
-  <section class="section">
-    <div class="section-head">
-      <div class="eyebrow">Z naší nabídky</div>
-      <h2>Na co máte chuť?</h2>
-      <p>Vyberte si něco dobrého z naší nabídky.</p>
-    </div>
+  <div class="menu-content">
 
-    <div class="cards">
-      <article class="food">
-        <img src="assets/syr.jpg" alt="Smažený sýr s hranolky">
-        <div class="food-info">
-          <h3>Smažený sýr s hranolky</h3>
-          <p>TEST – Křupavý sýr, hranolky a příloha.</p>
-          <a href="jidelnicek.html">Zobrazit nabídku →</a>
-        </div>
-      </article>
+    <section class="menu-section" id="polevky">
+      <div class="menu-list">
+        <h2>Polévky</h2>
+        <div class="menu-item"><span class="item-name">Hovězí vývar</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Gulášová polévka</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Česneková polévka</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Tomatová polévka</span><span class="dots"></span><span class="price">TEST</span></div>
+      </div>
+      <div class="menu-photo">
+        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85" alt="Polévka" loading="lazy">
+      </div>
+    </section>
 
-      <article class="food">
-        <img src="assets/burger.jpg" alt="Burger">
-        <div class="food-info">
-          <h3>Naše burgery</h3>
-          <p>TEST – Burger s lahodnou náplní a čerstvými surovinami.</p>
-          <a href="jidelnicek.html">Zobrazit nabídku →</a>
-        </div>
-      </article>
-    </div>
+    <section class="menu-section reverse" id="hlavni">
+      <div class="menu-photo food-photo">
+        <img src="assets/syr.jpg" alt="Smažený sýr s hranolky" loading="lazy">
+      </div>
+      <div class="menu-list">
+        <h2>Hlavní jídla</h2>
+        <div class="menu-item"><span class="item-name">Smažený sýr s hranolky</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Kuřecí řízek s bramborami</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Vepřový řízek s bramborami</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Hovězí guláš s knedlíkem</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Svíčková na smetaně</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Pečené koleno s chlebem</span><span class="dots"></span><span class="price">TEST</span></div>
+      </div>
+    </section>
 
-    <div class="features">
-      <div class="feature">
-        <h3>🍽 Jídelní lístek</h3>
-        <p>Prohlédněte si nabídku jídel, příloh, dezertů a nápojů.</p>
-        <a class="btn outline" href="jidelnicek.html">Prohlédnout</a>
+    <section class="menu-section" id="speciality">
+      <div class="menu-list">
+        <h2>Speciality</h2>
+        <div class="menu-item"><span class="item-name">Burger s trhaným masem</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Burger s hovězím masem</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Pikantní kuřecí stripsy</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Tortilla s kuřecím masem</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Těstovinový salát</span><span class="dots"></span><span class="price">TEST</span></div>
+      </div>
+      <div class="menu-photo food-photo">
+        <img src="assets/burger.jpg" alt="Burger" loading="lazy">
+      </div>
+    </section>
+
+    <section class="menu-triple" id="prilohy">
+      <div class="mini-list">
+        <h2>Přílohy</h2>
+        <div class="menu-item"><span class="item-name">Hranolky</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Krokety</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Brambory</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Zeleninový salát</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Rýže</span><span class="dots"></span><span class="price">TEST</span></div>
       </div>
 
-      <div class="feature">
-        <h3>🛒 Objednávky</h3>
-        <p>Vyberte si jídlo a prohlédněte si svůj košík.</p>
-        <a class="btn outline" href="objednavka.html">Objednat</a>
+      <div class="mini-list" id="dezerty">
+        <h2>Dezerty</h2>
+        <div class="menu-item"><span class="item-name">Palačinky s ovocem</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Zmrzlinový pohár</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Čokoládový fondant</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Šlehačkový dort</span><span class="dots"></span><span class="price">TEST</span></div>
       </div>
 
-      <div class="feature">
-        <h3>📍 Najdete nás</h3>
-        <p>TEST – Informace o hospodě ve Strmilově.</p>
-        <a class="btn outline" href="informace.html">Více informací</a>
+      <div class="mini-list" id="napoje">
+        <h2>Nealko nápoje</h2>
+        <div class="menu-item"><span class="item-name">Coca-Cola</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Fanta</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Sprite</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Voda</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Džus</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Tonic</span><span class="dots"></span><span class="price">TEST</span></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="cta">
-    <div>
-      <h2>Stavte se na něco dobrého.</h2>
-      <p>Hospoda Na Růžku – Strmilov. Další informace: TEST.</p>
+    <section class="drinks" id="pivo">
+      <img src="https://images.unsplash.com/photo-1513558161293-cfaf765edfd7?auto=format&fit=crop&w=900&q=85" alt="Nápoj v hospodě" loading="lazy">
+      <div class="menu-list">
+        <h2>Pivo</h2>
+        <div class="menu-item"><span class="item-name">Pilsner Urquell 0,5 l</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Kozel 11° 0,5 l</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Kozel 10° 0,5 l</span><span class="dots"></span><span class="price">TEST</span></div>
+        <div class="menu-item"><span class="item-name">Nealkoholické pivo</span><span class="dots"></span><span class="price">TEST</span></div>
+      </div>
+    </section>
+
+    <div class="note">
+      Hospoda Na Růžku · Strmilov<br>
+      Všechny uvedené ceny jsou zatím TEST a budou doplněny.
     </div>
-    <a class="btn gold" href="kontakt.html">Kontaktujte nás ↗</a>
-  </section>
+
+  </div>
 </main>
 
 <footer>
-  <img src="assets/logo.jpg" alt="Logo"><br>
+  <img src="assets/logo.jpg" alt="Logo Hospody Na Růžku">
   <p>Hospoda Na Růžku · Strmilov</p>
   <p>© 2026 · TEST</p>
+  <a href="index.html">Hlavní stránka</a> ·
+  <a href="kontakt.html">Kontakt</a>
 </footer>
 
 <script>
-function toggleMenu() {
-  document.getElementById('mobileMenu').classList.toggle('open');
+const drawer = document.getElementById('drawer');
+const overlay = document.getElementById('overlay');
+
+function openMenu() {
+  drawer.classList.add('open');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-document.querySelectorAll('#mobileMenu a').forEach(function(link) {
-  link.addEventListener('click', function() {
-    document.getElementById('mobileMenu').classList.remove('open');
-  });
+function closeMenu() {
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') closeMenu();
+});
+
+drawer.querySelectorAll('a').forEach(function(link) {
+  link.addEventListener('click', closeMenu);
 });
 </script>
 </body>
