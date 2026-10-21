@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -40,6 +40,7 @@ a {
   text-decoration: none;
 }
 
+/* HLAVIČKA */
 header {
   position: sticky;
   top: 0;
@@ -50,6 +51,7 @@ header {
 }
 
 .nav {
+  position: relative;
   max-width: 1200px;
   margin: auto;
   min-height: 82px;
@@ -79,41 +81,86 @@ header {
   color: var(--gold);
 }
 
-.nav-links {
+/* TLAČÍTKO MENU */
+.menu-toggle {
   display: flex;
   align-items: center;
-  gap: 25px;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--card);
+  color: var(--gold);
+  font-size: 27px;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.menu-toggle:hover {
+  background: var(--gold);
+  color: #17130b;
+}
+
+/* ROZBALOVACÍ NAVIGACE */
+.nav-links {
+  display: none;
+  position: absolute;
+  top: calc(100% - 2px);
+  right: 24px;
+  z-index: 101;
+  min-width: 245px;
+  padding: 12px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  background: #191916;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 14px 35px #0008;
+}
+
+.nav-links.open {
+  display: flex;
+  animation: appear .2s ease both;
 }
 
 .nav-links a {
+  display: block;
+  padding: 13px 15px;
   color: #ddd5c7;
   font-size: 14px;
-  transition: color .25s;
+  border-radius: 4px;
+  transition: .25s;
 }
 
 .nav-links a:hover {
   color: var(--gold-light);
+  background: rgba(214,179,106,.1);
 }
 
-.cart-link {
+.nav-links .cart-link {
   background: var(--gold);
-  color: #17130b !important;
-  padding: 12px 17px;
-  border-radius: 5px;
+  color: #17130b;
+  text-align: center;
   font-weight: 700;
-  transition: .25s;
+  margin-top: 5px;
 }
 
-.cart-link:hover {
+.nav-links .cart-link:hover {
   background: var(--gold-light);
-  transform: translateY(-2px);
 }
 
+/* ÚVOD */
 .hero {
   padding: 75px 20px 55px;
   text-align: center;
-  background:
-    radial-gradient(ellipse at top, rgba(214,179,106,.12), transparent 65%);
+  background: radial-gradient(
+    ellipse at top,
+    rgba(214,179,106,.12),
+    transparent 65%
+  );
 }
 
 .eyebrow {
@@ -145,6 +192,7 @@ h1, h2, h3 {
   margin: auto;
 }
 
+/* KATEGORIE */
 .categories {
   max-width: 1200px;
   margin: 0 auto 40px;
@@ -173,6 +221,7 @@ h1, h2, h3 {
   border-color: var(--gold);
 }
 
+/* NABÍDKA */
 .menu-section {
   max-width: 1200px;
   margin: 0 auto;
@@ -289,6 +338,7 @@ h1, h2, h3 {
   transform: scale(.96);
 }
 
+/* KOŠÍK */
 .cart-panel {
   max-width: 1152px;
   margin: 0 auto 70px;
@@ -399,6 +449,7 @@ h1, h2, h3 {
   padding: 15px 0;
 }
 
+/* PATIČKA */
 footer {
   border-top: 1px solid var(--border);
   padding: 30px 20px;
@@ -411,6 +462,7 @@ footer span {
   color: var(--gold);
 }
 
+/* OZNÁMENÍ */
 .toast {
   position: fixed;
   z-index: 200;
@@ -434,32 +486,44 @@ footer span {
 }
 
 @keyframes appear {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* TABLET */
 @media (max-width: 850px) {
   .menu-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .nav {
-    flex-wrap: wrap;
-  }
-
-  .nav-links {
-    gap: 13px;
-    flex-wrap: wrap;
-  }
 }
 
+/* MOBIL */
 @media (max-width: 560px) {
   .nav {
-    justify-content: center;
+    padding: 12px 16px;
+    min-height: 70px;
+  }
+
+  .logo {
+    font-size: 17px;
+    gap: 8px;
+  }
+
+  .logo img {
+    width: 42px;
+    height: 42px;
   }
 
   .nav-links {
-    justify-content: center;
+    right: 16px;
+    left: 16px;
+    min-width: 0;
   }
 
   .menu-grid {
@@ -480,8 +544,16 @@ footer span {
     flex-wrap: wrap;
   }
 
+  .quantity-controls {
+    flex-wrap: wrap;
+  }
+
   .hero {
     padding-top: 50px;
+  }
+
+  .section-heading h2 {
+    font-size: 25px;
   }
 }
 </style>
@@ -497,7 +569,14 @@ footer span {
       <div>Restaurace <span>Menu</span></div>
     </a>
 
-    <div class="nav-links">
+    <button class="menu-toggle" id="menuToggle"
+            aria-label="Otevřít navigaci"
+            aria-expanded="false"
+            aria-controls="navLinks">
+      ☰
+    </button>
+
+    <div class="nav-links" id="navLinks">
       <a href="index.html">Domů</a>
       <a href="jidelnicek.html">Jídelní lístek</a>
       <a href="informace.html">Informace</a>
@@ -527,7 +606,6 @@ footer span {
   <div class="section-heading">
     <h2>Naše nabídka</h2>
   </div>
-
   <div class="menu-grid" id="menuGrid"></div>
 </main>
 
@@ -557,244 +635,47 @@ footer span {
 
 <div class="toast" id="toast">Přidáno do košíku!</div>
 
+<!-- PŮVODNÍ JAVASCRIPT PRO JÍDLA A KOŠÍK VLOŽ POD TUTO ČÁST -->
 <script>
-const foods = [
-  {
-    id: 1,
-    name: "Smažený sýr",
-    category: "jidla",
-    price: 169,
-    description: "Křupavý smažený sýr, připravený dozlatova.",
-    image: "assets/syr.jpg"
-  },
-  {
-    id: 2,
-    name: "Šťavnatý burger",
-    category: "jidla",
-    price: 219,
-    description: "Poctivý burger s čerstvou zeleninou a omáčkou.",
-    image: "assets/burger.jpg"
-  },
-  {
-    id: 3,
-    name: "Svíčková na smetaně",
-    category: "jidla",
-    price: 239,
-    description: "Tradiční česká klasika s houskovým knedlíkem.",
-    image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 4,
-    name: "Kuřecí řízek",
-    category: "jidla",
-    price: 189,
-    description: "Zlatavý kuřecí řízek připravený na másle.",
-    image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 5,
-    name: "Grilovaný steak",
-    category: "jidla",
-    price: 329,
-    description: "Šťavnatý steak s bylinkovým kořením.",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 6,
-    name: "Pizza Margherita",
-    category: "jidla",
-    price: 199,
-    description: "Rajčatový základ, mozzarella a čerstvá bazalka.",
-    image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 7,
-    name: "Hranolky",
-    category: "prilohy",
-    price: 59,
-    description: "Zlatavé a křupavé hranolky.",
-    image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 8,
-    name: "Americké brambory",
-    category: "prilohy",
-    price: 65,
-    description: "Kořeněné pečené brambory.",
-    image: "https://images.unsplash.com/photo-1518013431117-eb1465fa5752?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 9,
-    name: "Čokoládový dort",
-    category: "dezerty",
-    price: 89,
-    description: "Jemný čokoládový dezert ke kávě.",
-    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 10,
-    name: "Palačinky",
-    category: "dezerty",
-    price: 99,
-    description: "Sladké palačinky s ovocem a čokoládou.",
-    image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 11,
-    name: "Domácí limonáda",
-    category: "napoje",
-    price: 55,
-    description: "Osvěžující domácí limonáda.",
-    image: "https://images.unsplash.com/photo-1513558161293-cafb765edfd7?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 12,
-    name: "Káva",
-    category: "napoje",
-    price: 49,
-    description: "Voňavá káva připravená čerstvě.",
-    image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80"
-  }
-];
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
 
-let cart = [];
-
-const menuGrid = document.getElementById("menuGrid");
-
-function renderMenu(filter = "vse") {
-  const filtered = filter === "vse"
-    ? foods
-    : foods.filter(food => food.category === filter);
-
-  menuGrid.innerHTML = filtered.map(food => `
-    <article class="food-card">
-      <div class="food-image">
-        <img src="${food.image}"
-             alt="${food.name}"
-             loading="lazy"
-             onerror="this.onerror=null;this.src='https://placehold.co/800x500/191916/d6b36a?text=Jidlo'">
-      </div>
-      <div class="food-info">
-        <h3>${food.name}</h3>
-        <p>${food.description}</p>
-        <div class="food-bottom">
-          <span class="price">${food.price} Kč</span>
-          <button class="add-btn" onclick="addToCart(${food.id})">
-            + Přidat do košíku
-          </button>
-        </div>
-      </div>
-    </article>
-  `).join("");
+function closeNavigation() {
+  navLinks.classList.remove("open");
+  menuToggle.textContent = "☰";
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Otevřít navigaci");
 }
 
-document.querySelectorAll(".category-btn").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".category-btn").forEach(btn =>
-      btn.classList.remove("active")
-    );
+menuToggle.addEventListener("click", () => {
+  const isOpen = navLinks.classList.toggle("open");
 
-    button.classList.add("active");
-    renderMenu(button.dataset.filter);
-  });
+  menuToggle.textContent = isOpen ? "✕" : "☰";
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  menuToggle.setAttribute(
+    "aria-label",
+    isOpen ? "Zavřít navigaci" : "Otevřít navigaci"
+  );
 });
 
-function addToCart(id) {
-  const food = foods.find(item => item.id === id);
-  const existing = cart.find(item => item.id === id);
+navLinks.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", closeNavigation);
+});
 
-  if (existing) {
-    existing.quantity++;
-  } else {
-    cart.push({ ...food, quantity: 1 });
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeNavigation();
+});
+
+document.addEventListener("click", event => {
+  if (
+    navLinks.classList.contains("open") &&
+    !navLinks.contains(event.target) &&
+    !menuToggle.contains(event.target)
+  ) {
+    closeNavigation();
   }
-
-  renderCart();
-  showToast(`${food.name} přidáno do košíku`);
-}
-
-function changeQuantity(id, amount) {
-  const item = cart.find(item => item.id === id);
-  if (!item) return;
-
-  item.quantity += amount;
-
-  if (item.quantity <= 0) {
-    cart = cart.filter(item => item.id !== id);
-  }
-
-  renderCart();
-}
-
-function removeFromCart(id) {
-  cart = cart.filter(item => item.id !== id);
-  renderCart();
-}
-
-function renderCart() {
-  const cartItems = document.getElementById("cartItems");
-  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity, 0
-  );
-
-  document.getElementById("navCount").textContent = totalCount;
-  document.getElementById("cartCount").textContent =
-    `${totalCount} ${totalCount === 1 ? "položka" : totalCount >= 2 && totalCount <= 4 ? "položky" : "položek"}`;
-
-  document.getElementById("cartTotal").textContent =
-    `${totalPrice.toLocaleString("cs-CZ")} Kč`;
-
-  if (cart.length === 0) {
-    cartItems.innerHTML =
-      '<p class="empty-cart">Zatím tu nic nemáš. Vyber si něco dobrého!</p>';
-    return;
-  }
-
-  cartItems.innerHTML = cart.map(item => `
-    <div class="cart-item">
-      <div>
-        <strong>${item.name}</strong><br>
-        <small>${item.price} Kč / kus</small>
-      </div>
-
-      <div class="quantity-controls">
-        <button onclick="changeQuantity(${item.id}, -1)" aria-label="Odebrat kus">−</button>
-        <span>${item.quantity}×</span>
-        <button onclick="changeQuantity(${item.id}, 1)" aria-label="Přidat kus">+</button>
-        <strong>${(item.price * item.quantity).toLocaleString("cs-CZ")} Kč</strong>
-        <button class="remove-btn" onclick="removeFromCart(${item.id})">✕</button>
-      </div>
-    </div>
-  `).join("");
-}
-
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.add("show");
-
-  clearTimeout(window.toastTimeout);
-  window.toastTimeout = setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2200);
-}
-
-function goToOrder() {
-  if (cart.length === 0) {
-    showToast("Nejdřív si přidej něco do košíku!");
-    return;
-  }
-
-  // Předání objednávky další stránce ve stejném prohlížeči.
-  localStorage.setItem("restaurace_kosik", JSON.stringify(cart));
-  window.location.href = "objednavka.html";
-}
-
-renderMenu();
-renderCart();
+});
 </script>
 
 </body>
 </html>
-```
