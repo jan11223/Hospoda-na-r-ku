@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -22,13 +21,9 @@
   --line: #3b3328;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -51,16 +46,10 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
 
-button {
-  font: inherit;
-}
-
-/* POHYBUJÍCÍ SE HVĚZDY */
+/* POHYBUJÍCÍ SE HVĚZDIČKY */
 #stars {
   position: fixed;
   inset: 0;
@@ -82,12 +71,8 @@ button {
     transform: translateY(30px) rotate(0deg) scale(.6);
     opacity: 0;
   }
-  15% {
-    opacity: .65;
-  }
-  75% {
-    opacity: .35;
-  }
+  15% { opacity: .65; }
+  75% { opacity: .35; }
   100% {
     transform: translateY(-110vh) rotate(180deg) scale(1.2);
     opacity: 0;
@@ -206,6 +191,72 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   transform: rotate(8deg);
 }
 
+/* STAV OTEVŘENÍ */
+.opening-status {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 17px;
+  margin-bottom: 22px;
+  border: 1px solid #ffffff18;
+  border-radius: 999px;
+  background: #1b1915e8;
+  color: var(--cream);
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 8px 25px #0003;
+  transition: all .3s ease;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 12px #ef444477;
+}
+
+.opening-status.is-open {
+  border-color: #22c55e55;
+}
+
+.opening-status.is-open .status-dot {
+  background: #22c55e;
+  box-shadow: 0 0 13px #22c55e99;
+  animation: statusPulse 1.8s infinite;
+}
+
+.opening-status.is-soon {
+  border-color: #f59e0b55;
+}
+
+.opening-status.is-soon .status-dot {
+  background: #f59e0b;
+  box-shadow: 0 0 12px #f59e0b88;
+  animation: statusPulse 1.8s infinite;
+}
+
+.opening-status.is-closed {
+  border-color: #ef444444;
+}
+
+.opening-status.is-closed .status-dot {
+  background: #ef4444;
+  box-shadow: 0 0 12px #ef444477;
+}
+
+.status-extra {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .55; transform: scale(.82); }
+}
+
 /* HLAVNÍ SEKCE */
 .hero {
   max-width: 1500px;
@@ -219,9 +270,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   position: relative;
 }
 
-.hero-copy {
-  animation: fadeUp .8s ease both;
-}
+.hero-copy { animation: fadeUp .8s ease both; }
 
 .eyebrow {
   color: var(--gold);
@@ -243,8 +292,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   text-shadow: 0 0 35px #d7ad621b;
 }
 
-.hero p,
-.copy p {
+.hero p, .copy p {
   color: var(--muted);
   font-size: 16px;
   line-height: 1.9;
@@ -265,6 +313,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   margin-top: 40px;
   color: var(--muted);
   font-size: 12px;
+  line-height: 1.8;
 }
 
 .hero-meta b {
@@ -274,7 +323,6 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   margin-bottom: 6px;
 }
 
-/* VĚTŠÍ FOTKY BEZ ČERNÝCH OKRAJŮ */
 .hero-photos {
   height: 510px;
   width: 100%;
@@ -418,15 +466,12 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   transition: transform .5s;
 }
 
-.split img:hover {
-  transform: scale(1.02);
-}
+.split img:hover { transform: scale(1.02); }
 
 .copy h2 {
   font: clamp(36px, 4vw, 52px) "Playfair Display", serif;
 }
 
-/* INFO PANEL */
 .info-panel {
   padding: 30px;
   background: linear-gradient(145deg, #211e18, #171512);
@@ -435,10 +480,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   text-align: center;
 }
 
-.info-panel .symbol {
-  font-size: 35px;
-  margin-bottom: 10px;
-}
+.info-panel .symbol { font-size: 35px; margin-bottom: 10px; }
 
 .info-panel h3 {
   font: 25px "Playfair Display", serif;
@@ -463,13 +505,8 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   font-size: 12px;
 }
 
-.footer strong {
-  color: var(--gold-light);
-}
-
-.footer a:hover {
-  color: var(--gold-light);
-}
+.footer strong { color: var(--gold-light); }
+.footer a:hover { color: var(--gold-light); }
 
 /* BOČNÍ MENU */
 .drawer-bg {
@@ -482,10 +519,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   transition: opacity .3s;
 }
 
-.drawer-bg.open {
-  opacity: 1;
-  pointer-events: auto;
-}
+.drawer-bg.open { opacity: 1; pointer-events: auto; }
 
 .drawer {
   position: fixed;
@@ -505,9 +539,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   box-shadow: -20px 0 60px #0008;
 }
 
-.drawer.open {
-  transform: translateX(0);
-}
+.drawer.open { transform: translateX(0); }
 
 .drawer-head {
   display: flex;
@@ -529,9 +561,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   font-size: 26px;
 }
 
-.drawer-head .brand span {
-  font-size: 14px;
-}
+.drawer-head .brand span { font-size: 14px; }
 
 .close {
   background: #29251f;
@@ -596,9 +626,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   transition: transform .25s;
 }
 
-.cart-fab:hover {
-  transform: translateY(-4px);
-}
+.cart-fab:hover { transform: translateY(-4px); }
 
 .cart-panel {
   position: fixed;
@@ -696,29 +724,19 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
     margin: auto;
   }
 
-  .hero-meta {
-    margin-top: 28px;
-  }
-
-  .split {
-    grid-template-columns: 1fr;
-  }
+  .hero-meta { margin-top: 28px; }
+  .split { grid-template-columns: 1fr; }
 
   .wide-cta {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .navright > .btn {
-    display: none;
-  }
+  .navright > .btn { display: none; }
 }
 
 @media (max-width: 560px) {
-  .topbar {
-    height: 76px;
-    padding: 0 14px;
-  }
+  .topbar { height: 76px; padding: 0 14px; }
 
   .topbar > .brand {
     left: 12px;
@@ -752,48 +770,22 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
     min-height: auto;
   }
 
-  .hero h1 {
-    font-size: 48px;
-  }
+  .hero h1 { font-size: 48px; }
+  .hero p { font-size: 14px; }
+  .hero-photos { height: 330px; }
 
-  .hero p {
-    font-size: 14px;
-  }
-
-  .hero-photos {
-    height: 330px;
-  }
-
-  .photo.one {
-    width: 76%;
-    height: 69%;
-  }
-
-  .photo.two {
-    width: 69%;
-    height: 67%;
-  }
+  .photo.one { width: 76%; height: 69%; }
+  .photo.two { width: 69%; height: 67%; }
 
   .floating-label {
     padding: 12px 15px;
     font-size: 14px;
   }
 
-  .hero-meta {
-    gap: 18px;
-  }
-
-  .section {
-    padding: 55px 18px;
-  }
-
-  .section h2 {
-    font-size: 35px;
-  }
-
-  .split img {
-    height: 270px;
-  }
+  .hero-meta { gap: 18px; }
+  .section { padding: 55px 18px; }
+  .section h2 { font-size: 35px; }
+  .split img { height: 270px; }
 
   .footer {
     flex-direction: column;
@@ -801,12 +793,13 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
     line-height: 1.9;
   }
 
-  .wide-cta {
-    padding: 25px;
-  }
+  .wide-cta { padding: 25px; }
+  .actions .btn { width: 100%; }
 
-  .actions .btn {
-    width: 100%;
+  .opening-status {
+    padding: 10px 13px;
+    font-size: 12px;
+    gap: 8px;
   }
 }
 
@@ -823,13 +816,12 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
 
 <body>
 
-<!-- Hvězdičky na pozadí -->
 <div id="stars" aria-hidden="true"></div>
 
 <header class="topbar">
   <a href="index.html" class="brand">
     <div class="brand-icon">🍺</div>
-    <span>HOSPODA NA RŮŽKU<small>STRMILOV</small></span>
+    <span>HOSPODA NA RŮŽKU<small>STRMILOV 262</small></span>
   </a>
 
   <div class="navright">
@@ -845,7 +837,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
   <div class="drawer-head">
     <a href="index.html" class="brand">
       <div class="brand-icon">🍺</div>
-      <span>NA RŮŽKU<small>STRMILOV</small></span>
+      <span>NA RŮŽKU<small>STRMILOV 262</small></span>
     </a>
     <button class="close" id="menuClose" aria-label="Zavřít menu">×</button>
   </div>
@@ -871,6 +863,14 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
 
   <section class="hero">
     <div class="hero-copy">
+
+      <div class="opening-status is-closed" id="openingStatus"
+           role="status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="openingText">Načítám otevírací dobu…</span>
+        <span class="status-extra" id="openingExtra"></span>
+      </div>
+
       <div class="eyebrow">Hospoda · Strmilov</div>
 
       <h1>Dobré jídlo.<br><em>Poctivá</em> pohoda.</h1>
@@ -888,16 +888,20 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
 
       <div class="hero-meta">
         <div>
-          <b>Naše nabídka</b>
-          Jídlo a nápoje
+          <b>Rozvoz jídel</b>
+          10:00–20:00 každý den.
         </div>
+
         <div>
-          <b>Strmilov</b>
-          Hospoda Na Růžku
+          <b>Kde nás najdete?</b>
+          Dlouhá 262, Strmilov 378 53
         </div>
+
         <div>
-          <b>Na viděnou!</b>
-          Těšíme se na vás
+          <b>Otevírací doba</b>
+          Pondělí–čtvrtek 10:00–14:00, 17:00–21:00<br>
+          Pátek–sobota 11:00–23:00<br>
+          Neděle 11:00–21:00
         </div>
       </div>
     </div>
@@ -924,7 +928,6 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
     </div>
   </section>
 
-  <!-- NABÍDKA: BEZ TŘÍ UKÁZKOVÝCH JÍDEL -->
   <section class="section">
     <div class="section-head">
       <div class="eyebrow">Objev naši nabídku</div>
@@ -970,6 +973,7 @@ main, header, footer, .drawer, .cart-fab, .cart-panel {
         Chceš zjistit více informací nebo nás kontaktovat?
         Vše potřebné najdeš na stránkách našeho webu.
       </p>
+
       <div class="actions" style="justify-content:center">
         <a class="btn" href="kontakt.html">Kontaktovat nás</a>
         <a class="btn ghost" href="informace.html">Informace a otevírací doba</a>
@@ -1040,8 +1044,105 @@ for (let i = 0; i < 42; i++) {
   stars.appendChild(star);
 }
 
+/* AUTOMATICKÁ OTEVÍRACÍ DOBA */
+function updateOpeningStatus() {
+  // Používá český místní čas, i když návštěvník cestuje.
+  const now = new Date();
+
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Prague",
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23"
+  }).formatToParts(now);
+
+  const getPart = type => parts.find(p => p.type === type)?.value;
+
+  const weekdays = {
+    Sun: 0, Mon: 1, Tue: 2, Wed: 3,
+    Thu: 4, Fri: 5, Sat: 6
+  };
+
+  const day = weekdays[getPart("weekday")];
+  const minutes = Number(getPart("hour")) * 60 +
+                  Number(getPart("minute"));
+
+  const schedule = {
+    0: [[660, 1260]],
+    1: [[600, 840], [1020, 1260]],
+    2: [[600, 840], [1020, 1260]],
+    3: [[600, 840], [1020, 1260]],
+    4: [[600, 840], [1020, 1260]],
+    5: [[660, 1380]],
+    6: [[660, 1380]]
+  };
+
+  const status = document.getElementById("openingStatus");
+  const text = document.getElementById("openingText");
+  const extra = document.getElementById("openingExtra");
+
+  if (!status || !text || !extra) return;
+
+  function formatTime(value) {
+    const h = Math.floor(value / 60);
+    const m = value % 60;
+
+    return String(h).padStart(2, "0") + ":" +
+           String(m).padStart(2, "0");
+  }
+
+  const active = schedule[day].find(
+    ([start, end]) => minutes >= start && minutes < end
+  );
+
+  if (active) {
+    status.className = "opening-status is-open";
+    text.textContent = "Právě otevřeno";
+    extra.textContent = "· Zavírám v " + formatTime(active[1]);
+    return;
+  }
+
+  let next = null;
+
+  for (let offset = 0; offset < 7; offset++) {
+    const futureDay = (day + offset) % 7;
+
+    for (const [start] of schedule[futureDay]) {
+      const difference = offset * 1440 + start - minutes;
+
+      if (difference > 0) {
+        next = { difference, start };
+        break;
+      }
+    }
+
+    if (next) break;
+  }
+
+  if (next && next.difference <= 60) {
+    status.className = "opening-status is-soon";
+    text.textContent = "Brzy otevírá";
+    extra.textContent = "· v " + formatTime(next.start);
+  } else {
+    status.className = "opening-status is-closed";
+    text.textContent = "Právě zavřeno";
+    extra.textContent = next
+      ? "· Otevírá v " + formatTime(next.start)
+      : "";
+  }
+}
+
+updateOpeningStatus();
+setInterval(updateOpeningStatus, 60000);
+
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) updateOpeningStatus();
+});
+
 /* ROK V PATIČCE */
-document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("year").textContent =
+  new Date().getFullYear();
 
 /* BOČNÍ MENU */
 const drawer = document.getElementById("drawer");
@@ -1054,8 +1155,12 @@ function menu(open) {
   document.body.style.overflow = open ? "hidden" : "";
 }
 
-document.getElementById("menuOpen").addEventListener("click", () => menu(true));
-document.getElementById("menuClose").addEventListener("click", () => menu(false));
+document.getElementById("menuOpen")
+  .addEventListener("click", () => menu(true));
+
+document.getElementById("menuClose")
+  .addEventListener("click", () => menu(false));
+
 drawerBg.addEventListener("click", () => menu(false));
 
 document.querySelectorAll(".drawer nav a").forEach(link => {
@@ -1069,7 +1174,7 @@ document.addEventListener("keydown", event => {
   }
 });
 
-/* KOŠÍK – SDÍLENÝ S OSTATNÍMI STRÁNKAMI WEBU */
+/* KOŠÍK – SDÍLENÝ S OSTATNÍMI STRÁNKAMI */
 let cart = [];
 
 try {
@@ -1116,13 +1221,17 @@ function changeQty(index, delta) {
 }
 
 function renderCart() {
-  const count = cart.reduce((sum, item) => sum + (Number(item.qty) || 1), 0);
+  const count = cart.reduce(
+    (sum, item) => sum + (Number(item.qty) || 1), 0
+  );
+
   document.getElementById("cartCount").textContent = count;
 
   const items = document.getElementById("cartItems");
 
   if (!cart.length) {
-    items.innerHTML = '<p class="empty">Košík je zatím prázdný.</p>';
+    items.innerHTML =
+      '<p class="empty">Košík je zatím prázdný.</p>';
   } else {
     items.innerHTML = cart.map((item, index) => {
       const qty = Number(item.qty) || 1;
@@ -1133,21 +1242,25 @@ function renderCart() {
           <div>
             <b>${escapeHtml(item.name || "Položka")}</b>
             <div class="qty">
-              <button type="button" onclick="changeQty(${index},-1)">−</button>
+              <button type="button"
+                onclick="changeQty(${index},-1)">−</button>
               <span>${qty}×</span>
-              <button type="button" onclick="changeQty(${index},1)">+</button>
+              <button type="button"
+                onclick="changeQty(${index},1)">+</button>
             </div>
           </div>
           <div>
             ${price * qty} Kč<br>
-            <button type="button" onclick="removeItem(${index})">Odebrat ×</button>
+            <button type="button"
+              onclick="removeItem(${index})">Odebrat ×</button>
           </div>
         </div>`;
     }).join("");
   }
 
   const total = cart.reduce(
-    (sum, item) => sum + (Number(item.price) || 0) * (Number(item.qty) || 1),
+    (sum, item) =>
+      sum + (Number(item.price) || 0) * (Number(item.qty) || 1),
     0
   );
 
@@ -1166,10 +1279,12 @@ function toggleCart(force) {
   }
 }
 
-document.getElementById("cartOpen").addEventListener("click", () => toggleCart());
-document.getElementById("cartClose").addEventListener("click", () => toggleCart(false));
+document.getElementById("cartOpen")
+  .addEventListener("click", () => toggleCart());
 
-/* ZPŘÍSTUPNĚNÍ FUNKCÍ PRO TLAČÍTKA V KOŠÍKU */
+document.getElementById("cartClose")
+  .addEventListener("click", () => toggleCart(false));
+
 window.removeItem = removeItem;
 window.changeQty = changeQty;
 
