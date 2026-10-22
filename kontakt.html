@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -6,7 +7,9 @@
 <meta name="theme-color" content="#11100e">
 <title>Kontakt | Hospoda Na Růžku</title>
 
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -19,21 +22,29 @@
   --line: #3b3328;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
+  overflow-x: hidden;
   background:
-    radial-gradient(ellipse at 70% 0%, #382718 0, transparent 36%),
+    radial-gradient(ellipse at 75% 0%, #49301a 0%, transparent 38%),
+    radial-gradient(ellipse at 5% 55%, #292016 0%, transparent 32%),
     var(--bg);
   color: var(--cream);
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+  opacity: .025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 a {
@@ -41,77 +52,109 @@ a {
   text-decoration: none;
 }
 
-.topbar {
-  min-height: 82px;
-  padding: 15px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  border-bottom: 1px solid #ffffff12;
-  background: #11100eee;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  backdrop-filter: blur(15px);
+button { font: inherit; }
+
+/* POHYBUJÍCÍ SE HVĚZDIČKY */
+#stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-.brand {
+.star {
+  position: absolute;
+  color: var(--gold2);
+  opacity: 0;
+  text-shadow: 0 0 12px #e6bd70;
+  animation: starFloat linear infinite;
+}
+
+@keyframes starFloat {
+  0% {
+    transform: translateY(30px) rotate(0deg) scale(.6);
+    opacity: 0;
+  }
+  15% { opacity: .65; }
+  75% { opacity: .35; }
+  100% {
+    transform: translateY(-110vh) rotate(180deg) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* HLAVNÍ MENU – STEJNÝ STYL JAKO INDEX.HTML */
+.topbar {
+  height: 88px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  font-weight: 700;
+  justify-content: flex-end;
+  padding: 0 24px;
+  border-bottom: 1px solid #ffffff12;
+  background: #11100ee8;
+  backdrop-filter: blur(18px);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.topbar > .brand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
 }
 
 .brand-icon {
-  width: 48px;
-  height: 48px;
+  width: 54px;
+  height: 54px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--gold);
+  font-size: 33px;
   border-radius: 50%;
-  color: var(--gold);
-  font-size: 25px;
+  background: linear-gradient(145deg, #49351e, #21180f);
+  border: 1px solid #d7ad6266;
+  box-shadow: 0 0 25px #d7ad6218;
+}
+
+.brand span {
+  font-family: "Playfair Display", serif;
+  font-size: 17px;
+  font-weight: 800;
 }
 
 .brand small {
   display: block;
-  margin-top: 4px;
   color: var(--gold);
-  font: 10px 'DM Sans', sans-serif;
+  font: 10px "DM Sans", sans-serif;
   letter-spacing: 3px;
+  margin-top: 4px;
 }
 
-.nav {
+.navright {
   display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
   align-items: center;
-  font-size: 13px;
-}
-
-.nav a {
-  color: var(--muted);
-  transition: color .2s;
-}
-
-.nav a:hover {
-  color: var(--gold2);
+  gap: 10px;
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 13px 20px;
+  gap: 8px;
+  padding: 13px 21px;
   border: 1px solid var(--gold);
-  border-radius: 30px;
+  border-radius: 999px;
   background: linear-gradient(135deg, var(--gold2), #b98236);
   color: #18130c;
-  font-weight: 700;
-  transition: .25s;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .25s, box-shadow .25s, background .25s;
 }
 
 .btn:hover {
@@ -120,29 +163,58 @@ a {
 }
 
 .btn.ghost {
-  color: var(--cream);
   background: transparent;
+  color: var(--cream);
+  border-color: #6c5b40;
 }
 
+.btn.ghost:hover {
+  background: #d7ad6212;
+  border-color: var(--gold);
+}
+
+.menu-toggle {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #211e19;
+  color: var(--cream);
+  font-size: 23px;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.menu-toggle:hover {
+  color: var(--gold2);
+  border-color: var(--gold);
+  transform: rotate(8deg);
+}
+
+/* HLAVNÍ NADPIS */
 .hero {
-  padding: 75px 20px 45px;
+  padding: 85px 20px 50px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .eyebrow {
   color: var(--gold);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
 h1, h2, h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
 }
 
 .hero h1 {
   margin: 18px 0;
   font-size: clamp(45px, 7vw, 76px);
+  letter-spacing: -1.5px;
 }
 
 .hero h1 span {
@@ -153,111 +225,340 @@ h1, h2, h3 {
   max-width: 620px;
   margin: auto;
   color: var(--muted);
-  line-height: 1.8;
+  line-height: 1.9;
+  font-size: 15px;
 }
 
+/* KONTAKTNÍ KARTY */
 .section {
-  max-width: 1150px;
-  padding: 30px 22px 80px;
+  max-width: 1250px;
+  padding: 25px 25px 85px;
   margin: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
 }
 
 .card {
-  padding: 28px;
+  padding: 30px;
   background: linear-gradient(145deg, #211e18, #171512);
   border: 1px solid var(--line);
-  border-radius: 18px;
-  transition: .3s;
+  border-radius: 20px;
+  transition: transform .3s, border-color .3s, box-shadow .3s;
   overflow-wrap: anywhere;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
   border-color: var(--gold);
+  box-shadow: 0 18px 40px #0003;
 }
 
 .icon {
-  font-size: 30px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  border: 1px solid #d7ad6240;
+  border-radius: 17px;
+  background: #d7ad6210;
 }
 
 .card h2 {
-  margin: 17px 0 10px;
-  font-size: 24px;
+  margin: 20px 0 12px;
+  font-size: 25px;
 }
 
 .card p {
   color: var(--muted);
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 1.9;
 }
 
 .card a:not(.btn) {
   color: var(--gold2);
+  overflow-wrap: anywhere;
 }
 
 .card a:not(.btn):hover {
   text-decoration: underline;
 }
 
+.card .contact-link {
+  display: inline-block;
+  margin-top: 5px;
+  font-weight: 700;
+}
+
+/* SOCIÁLNÍ SÍTĚ */
 .socials {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
-  margin: 30px 0;
+  margin: 32px 0;
+}
+
+/* MAPA */
+.map-title {
+  text-align: center;
+  margin: 50px 0 20px;
+}
+
+.map-title h2 {
+  font-size: 34px;
+  margin: 12px 0;
+}
+
+.map-title p {
+  color: var(--muted);
+  line-height: 1.8;
 }
 
 .map {
   overflow: hidden;
-  margin-top: 35px;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px #0004;
+  background: var(--panel);
 }
 
 .map iframe {
   display: block;
   width: 100%;
-  height: 350px;
+  height: 400px;
   border: 0;
 }
 
+/* SPODNÍ INFORMAČNÍ PANEL */
+.bottom-panel {
+  text-align: center;
+  margin-top: 30px;
+  padding: 35px 25px;
+  border: 1px solid #72542d;
+  border-radius: 20px;
+  background: linear-gradient(120deg, #302316, #191612);
+}
+
+.bottom-panel h2 {
+  font-size: 30px;
+  margin: 0 0 12px;
+}
+
+.bottom-panel p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* PATIČKA */
 .footer {
-  padding: 28px 5%;
+  position: relative;
+  z-index: 1;
+  padding: 30px clamp(20px, 7vw, 100px);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 20px;
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 12px;
 }
 
-.footer strong {
+.footer strong { color: var(--gold2); }
+
+.footer a:hover { color: var(--gold2); }
+
+/* BOČNÍ MENU – STEJNÉ JAKO INDEX.HTML */
+.drawer-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: #000a;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+
+.drawer-bg.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+  height: 100dvh;
+  width: min(390px, 88vw);
+  z-index: 41;
+  padding: 25px;
+  background: #171511;
+  border-left: 1px solid #59452b;
+  transform: translateX(105%);
+  transition: transform .35s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -20px 0 60px #0008;
+}
+
+.drawer.open { transform: translateX(0); }
+
+.drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+  gap: 10px;
+}
+
+.drawer-head .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.drawer-head .brand-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.drawer-head .brand span { font-size: 14px; }
+
+.close {
+  background: #29251f;
+  color: var(--cream);
+  border: 1px solid var(--line);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 23px;
+  flex-shrink: 0;
+}
+
+.close:hover {
+  border-color: var(--gold);
   color: var(--gold2);
 }
 
-@media (max-width: 800px) {
-  .topbar {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+.drawer nav {
+  display: grid;
+  gap: 7px;
+  margin-top: 22px;
+}
 
-  .nav {
-    gap: 13px;
-  }
+.drawer nav a {
+  padding: 15px 13px;
+  border-radius: 10px;
+  color: #e9decb;
+  border: 1px solid transparent;
+  transition: .2s;
+}
 
+.drawer nav a:hover {
+  background: #2a2217;
+  border-color: #5d4729;
+  color: var(--gold2);
+  padding-left: 20px;
+}
+
+.drawer-bottom {
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* MOBIL */
+@media (max-width: 850px) {
   .cards {
     grid-template-columns: 1fr;
   }
 
+  .navright > .btn {
+    display: none;
+  }
+
+  .hero { padding-top: 60px; }
+
+  .card { padding: 25px; }
+}
+
+@media (max-width: 560px) {
+  .topbar {
+    height: 76px;
+    padding: 0 14px;
+  }
+
+  .topbar > .brand {
+    left: 12px;
+    transform: translateY(-50%);
+    gap: 6px;
+  }
+
+  .brand-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 25px;
+  }
+
+  .topbar .brand span {
+    font-size: 11px;
+    letter-spacing: .3px;
+  }
+
+  .topbar .brand small {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .menu-toggle {
+    width: 43px;
+    height: 43px;
+  }
+
   .hero {
-    padding-top: 55px;
+    padding: 55px 20px 35px;
+  }
+
+  .hero h1 {
+    font-size: 46px;
+  }
+
+  .section {
+    padding: 20px 18px 60px;
+  }
+
+  .map iframe { height: 320px; }
+
+  .map-title h2 { font-size: 29px; }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
   }
 }
 </style>
@@ -265,24 +566,48 @@ h1, h2, h3 {
 
 <body>
 
+<div id="stars" aria-hidden="true"></div>
+
 <header class="topbar">
   <a href="index.html" class="brand">
-    <div class="brand-icon">♨</div>
-    <div>
-      HOSPODA NA RŮŽKU
-      <small>STRMILOV</small>
-    </div>
+    <div class="brand-icon">🍺</div>
+    <span>HOSPODA NA RŮŽKU<small>STRMILOV 262</small></span>
   </a>
 
-  <nav class="nav">
-    <a href="index.html">Hlavní stránka</a>
-    <a href="jidelnicek.html">Jídelní lístek</a>
-    <a href="objednavka.html">Objednat jídlo</a>
-    <a href="informace.html">Informace</a>
-    <a href="onas.html">O nás</a>
-    <a href="kontakt.html">Kontakt</a>
-  </nav>
+  <div class="navright">
+    <a class="btn ghost" href="jidelnicek.html">Jídelní lístek</a>
+    <a class="btn" href="objednavka.html">Objednat jídlo</a>
+    <button class="menu-toggle" id="menuOpen" aria-label="Otevřít menu">☰</button>
+  </div>
 </header>
+
+<div class="drawer-bg" id="drawerBg"></div>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">🍺</div>
+      <span>NA RŮŽKU<small>STRMILOV 262</small></span>
+    </a>
+    <button class="close" id="menuClose" aria-label="Zavřít menu">×</button>
+  </div>
+
+  <nav>
+    <a href="index.html">⌂　Hlavní stránka</a>
+    <a href="jidelnicek.html">♨　Jídelní lístek</a>
+    <a href="objednavka.html">🛒　Objednat jídlo</a>
+    <a href="informace.html">◷　Informace a otevírací doba</a>
+    <a href="onas.html">✦　O nás</a>
+    <a href="kontakt.html">✉　Kontakt</a>
+    <a href="jidelnicek.html#napoje">☕　Nápoje</a>
+    <a href="jidelnicek.html#speciality">✧　Speciality</a>
+  </nav>
+
+  <div class="drawer-bottom">
+    Hospoda Na Růžku · Strmilov<br>
+    Dobré jídlo. Poctivá pohoda.
+  </div>
+</aside>
 
 <main>
   <section class="hero">
@@ -290,7 +615,7 @@ h1, h2, h3 {
     <h1>Naše <span>kontakty</span></h1>
     <p>
       Máš dotaz, chceš si něco objednat nebo se u nás zastavit?
-      Ozvi se nám nebo nás navštiv osobně.
+      Ozvi se nám nebo nás navštiv osobně. Rádi tě u nás přivítáme.
     </p>
   </section>
 
@@ -301,10 +626,11 @@ h1, h2, h3 {
         <div class="icon">☎️</div>
         <h2>Telefon</h2>
         <p>
-          Zavolej nám a domluv se s námi.
+          Potřebuješ se na něco zeptat nebo si domluvit objednávku?
+          Zavolej nám.
         </p>
-        <a href="tel:+420777949260">
-          +420 777 949 260
+        <a class="contact-link" href="tel:+420777949260">
+          +420 777 949 260 →
         </a>
       </article>
 
@@ -312,15 +638,15 @@ h1, h2, h3 {
         <div class="icon">📍</div>
         <h2>Adresa</h2>
         <p>
-          Zahradní 105<br>
-          693 01 Strachotín<br>
-          Česko
+          Dlouhá 262<br>
+          378 53 Strmilov<br>
+          Česká republika
         </p>
         <a
-          href="https://www.google.com/maps/search/?api=1&query=Zahradn%C3%AD+105%2C+69301+Strachot%C3%ADn"
+          class="contact-link"
+          href="https://www.google.com/maps/search/?api=1&query=Dlouh%C3%A1+262%2C+Strmilov"
           target="_blank"
-          rel="noopener noreferrer"
-        >
+          rel="noopener noreferrer">
           Zobrazit na mapě →
         </a>
       </article>
@@ -329,23 +655,18 @@ h1, h2, h3 {
         <div class="icon">✉️</div>
         <h2>Sociální sítě</h2>
         <p>
-          Sleduj nás a podívej se na novinky.
+          Sleduj nás na sociálních sítích, ať ti neuniknou novinky
+          a informace z naší hospody.
         </p>
         <p>
-          <a
-            href="https://www.facebook.com/hospudka.naruzku/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://www.facebook.com/hospudka.naruzku/"
+             target="_blank" rel="noopener noreferrer">
             Facebook →
           </a>
         </p>
         <p>
-          <a
-            href="https://www.instagram.com/hospoda.na.ruzku.strmilov/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://www.instagram.com/hospoda.na.ruzku.strmilov/"
+             target="_blank" rel="noopener noreferrer">
             Instagram →
           </a>
         </p>
@@ -354,32 +675,47 @@ h1, h2, h3 {
     </div>
 
     <div class="socials">
-      <a
-        class="btn"
-        href="https://www.facebook.com/hospudka.naruzku/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Facebook
+      <a class="btn"
+         href="https://www.facebook.com/hospudka.naruzku/"
+         target="_blank" rel="noopener noreferrer">
+        Facebook ↗
       </a>
 
-      <a
-        class="btn ghost"
-        href="https://www.instagram.com/hospoda.na.ruzku.strmilov/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Instagram
+      <a class="btn ghost"
+         href="https://www.instagram.com/hospoda.na.ruzku.strmilov/"
+         target="_blank" rel="noopener noreferrer">
+        Instagram ↗
       </a>
+    </div>
+
+    <div class="map-title">
+      <div class="eyebrow">NAJDEŠ NÁS ZDE</div>
+      <h2>Kde nás najdeš?</h2>
+      <p>
+        Najdi si cestu do Hospody Na Růžku ve Strmilově.
+        Kliknutím na mapu si můžeš otevřít trasu.
+      </p>
     </div>
 
     <div class="map">
       <iframe
-        src="https://maps.google.com/maps?q=Zahradn%C3%AD%20105%2C%2069301%20Strachot%C3%ADn%2C%20%C4%8Cesko&output=embed"
+        src="https://maps.google.com/maps?q=Dlouh%C3%A1%20262%2C%20Strmilov%2C%20%C4%8Cesko&output=embed"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
-        title="Mapa adresy Hospody Na Růžku"
-      ></iframe>
+        title="Mapa – Hospoda Na Růžku, Strmilov">
+      </iframe>
+    </div>
+
+    <div class="bottom-panel">
+      <h2>Těšíme se na tvoji návštěvu! 🍺</h2>
+      <p>
+        Chceš si prohlédnout nabídku nebo objednat jídlo?
+        Pokračuj na jídelní lístek nebo objednávkovou stránku.
+      </p>
+      <div class="socials">
+        <a class="btn" href="jidelnicek.html">Jídelní lístek →</a>
+        <a class="btn ghost" href="objednavka.html">Objednat jídlo →</a>
+      </div>
     </div>
   </section>
 </main>
@@ -387,24 +723,61 @@ h1, h2, h3 {
 <footer class="footer">
   <div>
     <strong>HOSPODA NA RŮŽKU</strong><br>
-    Strachotín
+    Strmilov
   </div>
 
   <div>
-    <a href="index.html">Hlavní stránka</a> ·
-    <a href="jidelnicek.html">Jídelní lístek</a> ·
+    <a href="index.html">Hlavní stránka</a>　·　
+    <a href="jidelnicek.html">Jídelní lístek</a>　·　
     <a href="kontakt.html">Kontakt</a>
   </div>
 
-  <div>
-    © <span id="year"></span> Hospoda Na Růžku
-  </div>
+  <div>© <span id="year"></span> Hospoda Na Růžku</div>
 </footer>
 
 <script>
-document.getElementById("year").textContent =
-  new Date().getFullYear();
+/* POHYBUJÍCÍ SE HVĚZDIČKY */
+const stars = document.getElementById("stars");
+
+for (let i = 0; i < 42; i++) {
+  const star = document.createElement("span");
+  star.className = "star";
+  star.textContent = Math.random() > 0.5 ? "✦" : "·";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.top = (Math.random() * 100 + 100) + "%";
+  star.style.fontSize = (8 + Math.random() * 13) + "px";
+  star.style.animationDuration = (12 + Math.random() * 24) + "s";
+  star.style.animationDelay = (-Math.random() * 30) + "s";
+  stars.appendChild(star);
+}
+
+/* AKTUÁLNÍ ROK */
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* BOČNÍ MENU */
+const drawer = document.getElementById("drawer");
+const drawerBg = document.getElementById("drawerBg");
+
+function menu(open) {
+  drawer.classList.toggle("open", open);
+  drawerBg.classList.toggle("open", open);
+  drawer.setAttribute("aria-hidden", String(!open));
+  document.body.style.overflow = open ? "hidden" : "";
+}
+
+document.getElementById("menuOpen").addEventListener("click", () => menu(true));
+document.getElementById("menuClose").addEventListener("click", () => menu(false));
+drawerBg.addEventListener("click", () => menu(false));
+
+document.querySelectorAll(".drawer nav a").forEach(link => {
+  link.addEventListener("click", () => menu(false));
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") menu(false);
+});
 </script>
 
 </body>
 </html>
+```
